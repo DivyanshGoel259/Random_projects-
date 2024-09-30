@@ -1,0 +1,22 @@
+.custom-range {
+    @apply appearance-none h-[0.3rem] w-full rounded-full; /* Basic Tailwind utilities */
+    background-color: #000000; /* Track color (line) */
+  }
+  
+  .custom-range::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-white cursor-pointer; /* Thumb (circle) color */
+  }
+  
+  .custom-range::-moz-range-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-white cursor-pointer;
+  }
+  
+  .custom-range::-ms-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-white cursor-pointer;
+  }
+  
+  /* This will adjust the background color for the filled part of the track (before the thumb) */
+  
+  
+  
+  

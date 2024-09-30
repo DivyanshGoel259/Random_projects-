@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full masti</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Text to Speech with Download (MP4)</h1>
+    <input type="text" id="textInput" placeholder="Type something...">
+    <button onclick="speakAndRecord()">Speak & Record</button>
+    <a id="downloadLink" style="display:none;">Download Audio</a>
+  </div>
+
+  <script>
+    let mediaRecorder;
+    let audioChunks = [];
+
+    function speakAndRecord() {
+      const text = document.getElementById('textInput').value;
+
+      const speech = new SpeechSynthesisUtterance(text);
+      speech.lang = 'en-US';
+
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const destination = audioContext.createMediaStreamDestination();
+
+      mediaRecorder = new MediaRecorder(destination.stream, { mimeType: 'audio/webm' });
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
+      //speech edn
+      speech.onend = () => {
+        mediaRecorder.stop();
+        prepareDownloadLink();
+      };
+      //recorder start 
+      mediaRecorder.start();
+      window.speechSynthesis.speak(speech);
+    }
+
+    function prepareDownloadLink() {
+      const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const downloadLink = document.getElementById('downloadLink');
+
+      downloadLink.href = audioUrl;
+      downloadLink.download = 'text-to-speech.mp4';
+      downloadLink.textContent = 'Download Audio';
+      downloadLink.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
